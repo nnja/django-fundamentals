@@ -1,0 +1,56 @@
+{
+    // Turn off hints and prompts that get in the way during live coding.
+    "terminal.integrated.initialHint": false,
+    "workbench.editor.empty.hint": "hidden",
+
+    // Python extension settings
+    "python.terminal.shellIntegration.enabled": false,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.focusAfterLaunch": true,
+
+    // Python environment extension settings
+    "python-envs.defaultEnvManager": "ms-python.python:venv",
+    // Note: this needs to be enabled in user settings.
+    "python-envs.terminal.autoActivationType": "shellStartup",
+
+    // Pylance's defaults, written out so a user-level setting cannot change
+    // what this project reports: no type checking, nothing silenced.
+    "python.analysis.ignore": [],
+    "python.analysis.typeCheckingMode": "off",
+    // No prompt suggesting that type checking be turned on.
+    "python.analysis.enableTypeCheckingRecommendation": false,
+    // Experimental: completion for the attributes the ORM adds to a model,
+    // such as objects and reverse relations.
+    "python.analysis.enableDjangoSupport": true,
+    // The Mypy extension, if installed, would run its bundled mypy on every
+    // open file. This project runs no type checker, so skip every file.
+    "mypy-type-checker.ignorePatterns": ["*"],
+
+    // Format a Python file with Ruff each time it is saved, and sort its
+    // imports when it is saved by hand.
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {"source.organizeImports.ruff": "explicit"},
+        "editor.snippetSuggestions": "top"
+    },
+
+    // Format a template with djLint each time it is saved, and close brackets
+    // and quotes while typing.
+    "[django-html]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "monosans.djlint",
+        "editor.autoClosingBrackets": "always",
+        "editor.autoClosingQuotes": "always",
+        "editor.snippetSuggestions": "top"
+    },
+    // Run the djLint installed in the project's .venv, with the indent from
+    // djlint.toml rather than the editor's tab size.
+    "djlint.useVenv": true,
+    "djlint.useEditorIndentation": false,
+
+    // The vscode-django extension registers the django-html language.
+    // Map template files to it and keep Emmet working there.
+    "files.associations": {"**/templates/**/*.html": "django-html"},
+    "emmet.includeLanguages": {"django-html": "html"}
+}

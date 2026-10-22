@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Animals looking for a home · RescueScout{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <h1>Looking for a home</h1>
+    <p class="lede">Adorable animals, all in one place. Pick one to learn more, then apply to adopt.</p>
+  </section>
+
+  <div class="toolbar">
+    <form class="search" method="get" action="{% url 'animals:list' %}" role="search">
+      {% if form.cleaned_data.species %}<input type="hidden" name="species" value="{{ form.cleaned_data.species }}">{% endif %}
+      {% if sort %}<input type="hidden" name="sort" value="{{ sort }}">{% endif %}
+      <input type="search" name="{{ form.name.html_name }}" value="{{ form.name.value|default_if_none:'' }}" placeholder="Search by name" aria-label="Search by name">
+      <button class="button button--quiet" type="submit">Search</button>
+    </form>
+    <nav class="chips" aria-label="Species">
+      <a class="chip{% if not form.cleaned_data.species %} chip--active{% endif %}"
+         href="{% querystring species=None page=None %}"
+         {% if not form.cleaned_data.species %} aria-current="page"{% endif %}>All</a>
+      {% for value, label in form.fields.species.choices %}
+        {% if value %}
+          <a class="chip{% if form.cleaned_data.species == value %} chip--active{% endif %}"
+             href="{% querystring species=value page=None %}"
+             {% if form.cleaned_data.species == value %} aria-current="page"{% endif %}>{{ label }}s</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+    <nav class="chips" aria-label="Order">
+      <a class="chip{% if sort != 'youngest' %} chip--active{% endif %}" href="{% querystring sort=None page=None %}"{% if sort != 'youngest' %} aria-current="page"{% endif %}>Newest arrivals</a>
+      <a class="chip{% if sort == 'youngest' %} chip--active{% endif %}" href="{% querystring sort='youngest' page=None %}"{% if sort == 'youngest' %} aria-current="page"{% endif %}>Youngest first</a>
+    </nav>
+  </div>
+
+  {{ form.name.errors }}
+  {{ form.species.errors }}
+
+  {% if page_obj %}
+    <ul class="card-grid">
+      {% for animal in page_obj %}
+        <li class="card">
+          <a class="card-link" href="{% url 'animals:detail' animal.id %}">
+            {% if animal.photo %}
+              <img class="card-photo" src="{{ animal.photo.url }}" alt="">
+            {% else %}
+              <img class="card-photo" src="{% static 'img/no-photo.webp' %}" alt="">
+            {% endif %}
+            {% if animal.status == "pending" %}
+              <span class="badge badge--pending">{{ animal.get_status_display }}</span>
+            {% endif %}
+            <h2 class="card-name">{{ animal.name }}</h2>
+            <p class="card-meta">{{ animal.breed|default:animal.get_species_display }}, {{ animal.age_label }}</p>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if page_obj.has_other_pages %}
+      <nav class="pagination" aria-label="Pages">
+        {% if page_obj.has_previous %}
+          <a class="button button--quiet" href="{% querystring page=page_obj.previous_page_number %}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a class="button button--quiet" href="{% querystring page=page_obj.next_page_number %}">Next</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% elif form.cleaned_data.name or form.cleaned_data.species %}
+    <p class="empty">No animals match your search.</p>
+  {% else %}
+    <p class="empty">No animals are looking for a home right now. Check back soon.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.coverage
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+media/
+# Written by Pylance's Django support in VS Code.
+.django-stub-gen/

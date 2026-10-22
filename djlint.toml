@@ -1,0 +1,9 @@
+# djLint formats and lints the templates. Format on save uses these settings.
+profile = "django"
+indent = 2
+# Keep a tag and its attributes on one line rather than one attribute per line.
+max_line_length = 200
+max_attribute_length = 200
+# Keep the blank lines that separate a template's blocks, one at most.
+preserve_blank_lines = true
+max_blank_lines = 1

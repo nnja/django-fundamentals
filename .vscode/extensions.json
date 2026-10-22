@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-python.vscode-python-envs",
+        "batisteo.vscode-django",
+        "monosans.djlint"
+    ],
+    "unwantedRecommendations": ["ms-python.mypy-type-checker"]
+}

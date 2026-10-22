@@ -1,0 +1,27 @@
+[project]
+name = "rescuescout"
+version = "0.1.0"
+description = "An animal rescue site: animals, adoption applications, an admin, and an API"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1",
+    "djangorestframework>=3.18",
+    "pillow>=12.3",
+    "psycopg[binary]>=3.3.6",
+]
+
+[dependency-groups]
+dev = [
+    "django-debug-toolbar>=8.0",
+    "djlint>=1.46.4",
+    "pytest>=9.1",
+    "pytest-django>=4.14",
+    "ruff>=0.17.0",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.test_settings"
+addopts = "-q"
+testpaths = ["tests"]
+python_files = ["test_*.py"]

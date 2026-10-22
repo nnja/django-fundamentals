@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ animal.name }} · RescueScout{% endblock %}
+
+{% block content %}
+  <article class="detail">
+    <div class="detail-photo">
+      {% if animal.photo %}
+        <img src="{{ animal.photo.url }}" alt="{{ animal.name }}">
+      {% else %}
+        <img src="{% static 'img/no-photo.webp' %}" alt="Photo not available">
+      {% endif %}
+    </div>
+    <div class="detail-body">
+      <span class="badge badge--{{ animal.status }}">{{ animal.get_status_display }}</span>
+      <h1>{{ animal.name }}</h1>
+      {# djLint would put each <dd> on three lines, so it skips this list. #}
+      {# djlint:off #}
+      <dl class="facts">
+        <div><dt>Species</dt><dd>{{ animal.get_species_display }}</dd></div>
+        {% if animal.breed %}<div><dt>Breed</dt><dd>{{ animal.breed }}</dd></div>{% endif %}
+        <div><dt>Age</dt><dd>{{ animal.age_label }}</dd></div>
+        <div><dt>Arrived</dt><dd>{{ animal.intake_date|date:"j F Y" }}</dd></div>
+      </dl>
+      {# djlint:on #}
+      {% if animal.description %}
+        <div class="description">{{ animal.description|linebreaks }}</div>
+      {% else %}
+        <p class="description muted">{{ animal.name }} doesn't have a write-up yet. Ask us about them.</p>
+      {% endif %}
+      {% if animal.status == "available" %}
+        <p><a class="button" href="{% url 'animals:adopt' animal.id %}">Apply to adopt {{ animal.name }}</a></p>
+      {% elif animal.status == "pending" %}
+        <p class="muted">An adoption is pending for {{ animal.name }}.</p>
+      {% else %}
+        <p class="muted">{{ animal.name }} has found a home.</p>
+      {% endif %}
+      <p><a class="back" href="{% url 'animals:list' %}">All animals</a></p>
+    </div>
+  </article>
+{% endblock %}

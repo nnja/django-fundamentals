@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found · RescueScout{% endblock %}
+
+{% block content %}
+  <section class="prose">
+    <h1>Page not found</h1>
+    <p>
+      There's no page at this address. <a href="{% url 'animals:list' %}">See the animals looking for a home</a>.
+    </p>
+  </section>
+{% endblock %}

@@ -1,0 +1,13 @@
+line-length = 88
+target-version = "py314"
+# makemigrations writes these files. Reformatting them would only make the
+# committed files differ from what the command generates.
+extend-exclude = ["**/migrations/*.py"]
+
+[lint]
+select = ["B", "DJ", "E", "F", "I", "UP"]
+# RUF012 wants every list on a class annotated as a ClassVar. Django's
+# documentation writes admin options, form and serializer Meta fields, and
+# inlines as plain lists on the class, and this project has no type hints, so
+# the rule is left off even when an editor turns it on.
+ignore = ["E501", "RUF012"]

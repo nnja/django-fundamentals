@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Apply to adopt {{ animal.name }} · RescueScout{% endblock %}
+
+{% block content %}
+  <section class="form-page">
+    <h1>Apply to adopt {{ animal.name }}</h1>
+    <p class="lede">Tell us a little about yourself and your home. The rescue reads every application and replies within a few days.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <button class="button" type="submit">Send application</button>
+    </form>
+  </section>
+{% endblock %}
